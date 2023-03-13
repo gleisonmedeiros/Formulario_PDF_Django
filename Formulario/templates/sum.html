@@ -1,0 +1,20 @@
+<html>
+<body>
+
+<form method="post">
+    {% csrf_token %}
+    <label for="num1">Número 1:</label>
+    <input type="text" name="num1" id="num1"><br>
+
+    <label for="num2">Número 2:</label>
+    <input type="text" name="num2" id="num2"><br>
+
+    <input type="submit" value="Calculal">
+</form>
+
+{% if result %}
+    <p>A soma de {{ num1 }} e {{ num2 }} é igual a {{ result }}.</p>
+{% endif %}
+
+</body>
+</html>
