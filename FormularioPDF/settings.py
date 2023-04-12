@@ -26,7 +26,11 @@ SECRET_KEY = 'django-insecure-8i0^d68djg@qtm1dv^s_in49c6nw2!b)dwmtlf2pocfsm#hc#q
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.40.2.35']
+ALLOWED_HOSTS = ['*']
+
+import os
+workers = os.getenv("GUNICORN_WORKERS", "3")
+bind = os.getenv("GUNICORN_BIND", "0.0.0.0:8000")
 
 
 # Application definition
