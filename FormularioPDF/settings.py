@@ -28,10 +28,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-import os
-workers = os.getenv("GUNICORN_WORKERS", "3")
-bind = os.getenv("GUNICORN_BIND", "0.0.0.0:8000")
-
 
 # Application definition
 

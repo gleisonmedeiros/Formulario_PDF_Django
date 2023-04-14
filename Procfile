@@ -1,0 +1,1 @@
+web: gunicorn FormularioPDF.wsgi --log-file -

@@ -1,0 +1,6 @@
+RewriteEngine On
+RewriteBase /
+RewriteRule ^$ /FormularioPDF/Formulario/templates/form.html [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ //htdocs/FormularioPDF/FormularioPDF/wsgi.py/$1 [L]
