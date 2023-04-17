@@ -86,7 +86,9 @@ def download_file(request):
 
             caminho = 'media/'+ elemento1
 
-            response = s3.get_object(Bucket='agpydajngo', Key=caminho)
+            print(caminho)
+
+            response = s3.get_object(Bucket='agpydajngo', Key=str(caminho))
 
             # Faça algo com o arquivo, como salvar na memória ou retorná-lo como resposta HTTP
             image_bytes = response['Body'].read()
