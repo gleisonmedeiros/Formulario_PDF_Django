@@ -98,7 +98,7 @@ def download_file(request):
 
         arquivo_json(dicionario_form)
 
-        exporta_pdf(dicionario_media['file_path1'],
+        exporta_pdf(file_path1,
                     dicionario_media['file_path2'],
                     dicionario_media['file_path3'],
                     dicionario_media['file_path4'],
