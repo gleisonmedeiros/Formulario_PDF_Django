@@ -66,7 +66,7 @@ def download_file(request):
         s3 = boto3.client('s3',
                           aws_access_key_id='6c086dd98bbc',
                           aws_secret_access_key='005c1ebeba43277decbb062f2ace684dc5d01609b5',
-                          endpoint_url='s3.us-east-005.backblazeb2.com')
+                          endpoint_url='https://s3.us-east-005.backblazeb2.com')
 
         # Busque o arquivo .png no Backblaze B2
         response = s3.get_object(Bucket='agpydajngo', Key='media/logo.PNG')
