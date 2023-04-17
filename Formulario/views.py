@@ -1,3 +1,4 @@
+import io
 import json
 from django.http import HttpResponse ,  Http404
 import os
@@ -80,7 +81,9 @@ def download_file(request):
         # Faça algo com o arquivo, como salvar na memória ou retorná-lo como resposta HTTP
         png_data = response['Body'].read()
 
-        file_path5 = png_data.decode()
+        png_stream = io.BytesIO(png_data)
+
+        file_path5 = png_stream
         ########
 
         arquivo_json(dicionario_form)
