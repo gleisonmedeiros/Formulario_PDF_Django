@@ -64,7 +64,7 @@ def download_file(request):
 
         # Crie uma instância do cliente boto3
         s3 = boto3.client('s3',
-                          aws_access_key_id='866cb05896ed8df9887b0b1c',
+                          aws_access_key_id='6c086dd98bbc',
                           aws_secret_access_key='005c1ebeba43277decbb062f2ace684dc5d01609b5',
                           endpoint_url='https://s3.us-east-005.backblazeb2.com')
 
