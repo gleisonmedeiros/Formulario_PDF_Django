@@ -68,7 +68,7 @@ def download_file(request):
 
         print(id)
         print(key)
-        
+
         s3 = boto3.client('s3',
                           aws_access_key_id=id,
                           aws_secret_access_key=key,
@@ -80,7 +80,7 @@ def download_file(request):
         # Faça algo com o arquivo, como salvar na memória ou retorná-lo como resposta HTTP
         png_data = response['Body'].read()
 
-        file_path5 = pnd_data
+        file_path5 = png_data
         ########
 
         arquivo_json(dicionario_form)
