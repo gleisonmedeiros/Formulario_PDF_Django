@@ -8,6 +8,7 @@ from django.shortcuts import render
 from difflib import ndiff
 import boto3
 from PIL import Image
+from PyPDF2 import PdfFileReader
 
 from .forms import JSONUploadForm
 
