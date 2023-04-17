@@ -55,7 +55,7 @@ def download_file(request):
             temp = i
             dicionario_form[i] = str(request.POST.get(i))
 
-        file_path1 = os.path.join(settings.MEDIA_ROOT, 'arquivo.pdf')
+        #file_path1 = os.path.join(settings.MEDIA_ROOT, 'arquivo.pdf')
         #file_path2 = os.path.join(settings.MEDIA_ROOT, 'capa.jpg')
         #file_path3 = os.path.join(settings.MEDIA_ROOT, 'grafico1.jpg')
         #file_path4 = os.path.join(settings.MEDIA_ROOT, 'logo2.png')
@@ -97,6 +97,13 @@ def download_file(request):
             dicionario_media[elemento2] = Image.open(io.BytesIO(image_bytes))
 
         arquivo_json(dicionario_form)
+
+        # Faz a leitura do arquivo PDF do S3
+        response = s3.get_object(Bucket='agpydajngo', Key='arquivo.pdf')
+        pdf_bytes = response['Body'].read()
+
+        # Cria um objeto de arquivo PDF com os bytes lidos
+        file_path1 = PdfFileReader(io.BytesIO(pdf_bytes))
 
         exporta_pdf(file_path1,
                     dicionario_media['file_path2'],
