@@ -92,7 +92,7 @@ def download_file(request):
             image_bytes = response['Body'].read()
 
             # carregar imagem a partir dos bytes
-            dicionario_media[local] = Image.open(io.BytesIO(image_bytes))
+            dicionario_media[elemento2] = Image.open(io.BytesIO(image_bytes))
 
         arquivo_json(dicionario_form)
 
