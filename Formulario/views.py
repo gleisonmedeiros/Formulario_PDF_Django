@@ -5,6 +5,9 @@ from django.conf import settings
 from .gera_pdf import exporta_pdf
 from django.shortcuts import render
 from difflib import ndiff
+import firebase_admin
+from firebase_admin import credentials, storage
+import boto3
 
 from .forms import JSONUploadForm
 
@@ -52,12 +55,38 @@ def download_file(request):
             temp = i
             dicionario_form[i] = str(request.POST.get(i))
 
+        cred = credentials.Certificate(os.path.join(settings.MEDIA_ROOT,'firebase.json'))
+        firebase_admin.initialize_app(cred)
+
+        bucket = storage.bucket()
+        blob = bucket.blob('caminho/para/imagem.png')
+
+        # faz o download do arquivo para um objeto BytesIO em memória
+        file_obj = blob.download_as_bytes()
+
         file_path1 = os.path.join(settings.MEDIA_ROOT, 'arquivo.pdf')
         file_path2 = os.path.join(settings.MEDIA_ROOT, 'capa.jpg')
         file_path3 = os.path.join(settings.MEDIA_ROOT, 'grafico1.jpg')
         file_path4 = os.path.join(settings.MEDIA_ROOT, 'logo2.png')
-        file_path5 = os.path.join(settings.MEDIA_ROOT, 'logo.png')
+        #file_path5 = os.path.join(settings.MEDIA_ROOT, 'logo.png')
         file_path6 = os.path.join(settings.MEDIA_ROOT, 'folha.png')
+
+        ##### RECUPERA DO BACKBRAZE ####
+
+        # Crie uma instância do cliente boto3
+        s3 = boto3.client('s3',
+                          aws_access_key_id='6c086dd98bbc',
+                          aws_secret_access_key='005c1ebeba43277decbb062f2ace684dc5d01609b5',
+                          endpoint_url='s3.us-east-005.backblazeb2.com')
+
+        # Busque o arquivo .png no Backblaze B2
+        response = s3.get_object(Bucket='agpydajngo', Key='media/logo.PNG')
+
+        # Faça algo com o arquivo, como salvar na memória ou retorná-lo como resposta HTTP
+        png_data = response['Body'].read()
+
+        file_path5 = pnd_data
+        ########
 
         arquivo_json(dicionario_form)
 
