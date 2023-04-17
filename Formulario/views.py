@@ -55,7 +55,7 @@ def download_file(request):
             temp = i
             dicionario_form[i] = str(request.POST.get(i))
 
-        #file_path1 = os.path.join(settings.MEDIA_ROOT, 'arquivo.pdf')
+        file_path1 = os.path.join(settings.MEDIA_ROOT, 'arquivo.pdf')
         #file_path2 = os.path.join(settings.MEDIA_ROOT, 'capa.jpg')
         #file_path3 = os.path.join(settings.MEDIA_ROOT, 'grafico1.jpg')
         #file_path4 = os.path.join(settings.MEDIA_ROOT, 'logo2.png')
@@ -79,8 +79,8 @@ def download_file(request):
         # Busque o arquivo .png no Backblaze B2
         dicionario_media = {}
 
-        nome_arquivo = ['arquivo.pdf','capa.jpg','grafico1.jpg','logo2.png','logo.png','folha.png']
-        local = ['file_path1','file_path2','file_path3','file_path4','file_path5','file_path6']
+        nome_arquivo = ['capa.jpg','grafico1.jpg','logo2.png','logo.png','folha.png']
+        local = ['file_path2','file_path3','file_path4','file_path5','file_path6']
 
         for elemento1, elemento2 in zip(nome_arquivo, local):
 
