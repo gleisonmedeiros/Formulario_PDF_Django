@@ -8,7 +8,7 @@ from django.shortcuts import render
 from difflib import ndiff
 import boto3
 from PIL import Image
-from PyPDF2 import PdfFileReader
+from PyPDF2 import PdfReader
 
 from .forms import JSONUploadForm
 
@@ -104,7 +104,7 @@ def download_file(request):
         pdf_bytes = response['Body'].read()
 
         # Cria um objeto de arquivo PDF com os bytes lidos
-        file_path1 = PdfFileReader(io.BytesIO(pdf_bytes))
+        file_path1 = PdfReader(io.BytesIO(pdf_bytes))
 
         exporta_pdf(file_path1,
                     dicionario_media['file_path2'],
