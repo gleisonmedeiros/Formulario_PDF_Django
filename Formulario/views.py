@@ -55,12 +55,12 @@ def download_file(request):
             temp = i
             dicionario_form[i] = str(request.POST.get(i))
 
-        file_path1 = os.path.join(settings.MEDIA_ROOT, 'arquivo.pdf')
-        file_path2 = os.path.join(settings.MEDIA_ROOT, 'capa.jpg')
-        file_path3 = os.path.join(settings.MEDIA_ROOT, 'grafico1.jpg')
-        file_path4 = os.path.join(settings.MEDIA_ROOT, 'logo2.png')
+        #file_path1 = os.path.join(settings.MEDIA_ROOT, 'arquivo.pdf')
+        #file_path2 = os.path.join(settings.MEDIA_ROOT, 'capa.jpg')
+        #file_path3 = os.path.join(settings.MEDIA_ROOT, 'grafico1.jpg')
+        #file_path4 = os.path.join(settings.MEDIA_ROOT, 'logo2.png')
         #file_path5 = os.path.join(settings.MEDIA_ROOT, 'logo.png')
-        file_path6 = os.path.join(settings.MEDIA_ROOT, 'folha.png')
+        #file_path6 = os.path.join(settings.MEDIA_ROOT, 'folha.png')
 
         ##### RECUPERA DO BACKBRAZE ####
 
@@ -77,17 +77,32 @@ def download_file(request):
                           endpoint_url='https://s3.us-east-005.backblazeb2.com')
 
         # Busque o arquivo .png no Backblaze B2
-        response = s3.get_object(Bucket='agpydajngo', Key='media/logo.PNG')
+        dicionario_media = {}
 
-        # Faça algo com o arquivo, como salvar na memória ou retorná-lo como resposta HTTP
-        image_bytes = response['Body'].read()
+        nome_arquivo = ['arquivo.pdf','capa.jpg','grafico1.jpg','logo2.png','logo.png','folha.png']
+        local = ['file_path1','file_path2','file_path3','file_path4','file_path5','file_path6']
 
-        # carregar imagem a partir dos bytes
-        file_path5 = Image.open(io.BytesIO(image_bytes))
+        for elemento1, elemento2 in zip(nome_arquivo, local):
+
+            caminho = 'media/'+ elemento1
+
+            response = s3.get_object(Bucket='agpydajngo', Key=caminho)
+
+            # Faça algo com o arquivo, como salvar na memória ou retorná-lo como resposta HTTP
+            image_bytes = response['Body'].read()
+
+            # carregar imagem a partir dos bytes
+            dicionario_media[local] = Image.open(io.BytesIO(image_bytes))
 
         arquivo_json(dicionario_form)
 
-        exporta_pdf(file_path1,file_path2,file_path3,file_path4,file_path5,file_path6,dicionario_form)
+        exporta_pdf(dicionario_media['file_path1'],
+                    dicionario_media['file_path2'],
+                    dicionario_media['file_path3'],
+                    dicionario_media['file_path4'],
+                    dicionario_media['file_path5'],
+                    dicionario_media['file_path6']
+                    ,dicionario_form)
 
         with open(file_path1, 'rb') as file:
             response = HttpResponse(file.read(), content_type='application/pdf')
