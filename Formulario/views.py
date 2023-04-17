@@ -80,7 +80,7 @@ def download_file(request):
         # Faça algo com o arquivo, como salvar na memória ou retorná-lo como resposta HTTP
         png_data = response['Body'].read()
 
-        file_path5 = png_data
+        file_path5 = png_data.decode()
         ########
 
         arquivo_json(dicionario_form)
