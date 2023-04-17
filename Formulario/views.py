@@ -63,10 +63,15 @@ def download_file(request):
         ##### RECUPERA DO BACKBRAZE ####
 
         # Crie uma instância do cliente boto3
+        id = os.environ.get('backblaze_id')
+        key = os.environ.get('backblaze_key')
 
+        print(id)
+        print(key)
+        
         s3 = boto3.client('s3',
-                          aws_access_key_id=os.environ.get('backblaze_id'),
-                          aws_secret_access_key=os.environ.get('backblaze_key'),
+                          aws_access_key_id=id,
+                          aws_secret_access_key=key,
                           endpoint_url='https://s3.us-east-005.backblazeb2.com')
 
         # Busque o arquivo .png no Backblaze B2
