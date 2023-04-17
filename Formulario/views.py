@@ -79,12 +79,10 @@ def download_file(request):
         response = s3.get_object(Bucket='agpydajngo', Key='media/logo.PNG')
 
         # Faça algo com o arquivo, como salvar na memória ou retorná-lo como resposta HTTP
-        png_data = response['Body'].read()
+        image_bytes = response['Body'].read()
 
-        png_stream = io.BytesIO(png_data)
-
-        file_path5 = png_stream
-        ########
+        # carregar imagem a partir dos bytes
+        file_path5 = Image.open(io.BytesIO(image_bytes))
 
         arquivo_json(dicionario_form)
 
