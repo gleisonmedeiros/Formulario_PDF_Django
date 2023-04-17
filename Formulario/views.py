@@ -7,6 +7,7 @@ from .gera_pdf import exporta_pdf
 from django.shortcuts import render
 from difflib import ndiff
 import boto3
+from PIL import Image
 
 from .forms import JSONUploadForm
 
