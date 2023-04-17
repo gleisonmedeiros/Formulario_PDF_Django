@@ -79,7 +79,7 @@ def download_file(request):
         # Busque o arquivo .png no Backblaze B2
         dicionario_media = {}
 
-        nome_arquivo = ['capa.jpg','grafico1.jpg','logo2.png','logo.png','folha.png']
+        nome_arquivo = ['capa.jpg','grafico1.jpg','logo2.PNG','logo.PNG','folha.png']
         local = ['file_path2','file_path3','file_path4','file_path5','file_path6']
 
         for elemento1, elemento2 in zip(nome_arquivo, local):
