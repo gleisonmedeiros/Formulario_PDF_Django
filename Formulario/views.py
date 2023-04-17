@@ -5,8 +5,6 @@ from django.conf import settings
 from .gera_pdf import exporta_pdf
 from django.shortcuts import render
 from difflib import ndiff
-import firebase_admin
-from firebase_admin import credentials, storage
 import boto3
 
 from .forms import JSONUploadForm
@@ -54,15 +52,6 @@ def download_file(request):
         for i in lista:
             temp = i
             dicionario_form[i] = str(request.POST.get(i))
-
-        cred = credentials.Certificate(os.path.join(settings.MEDIA_ROOT,'firebase.json'))
-        firebase_admin.initialize_app(cred)
-
-        bucket = storage.bucket()
-        blob = bucket.blob('caminho/para/imagem.png')
-
-        # faz o download do arquivo para um objeto BytesIO em memória
-        file_obj = blob.download_as_bytes()
 
         file_path1 = os.path.join(settings.MEDIA_ROOT, 'arquivo.pdf')
         file_path2 = os.path.join(settings.MEDIA_ROOT, 'capa.jpg')
