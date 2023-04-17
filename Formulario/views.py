@@ -99,7 +99,7 @@ def download_file(request):
         arquivo_json(dicionario_form)
 
         # Faz a leitura do arquivo PDF do S3
-        response = s3.get_object(Bucket='agpydajngo', Key='arquivo.pdf')
+        response = s3.get_object(Bucket='agpydajngo', Key='media/arquivo.pdf')
         pdf_bytes = response['Body'].read()
 
         # Cria um objeto de arquivo PDF com os bytes lidos
