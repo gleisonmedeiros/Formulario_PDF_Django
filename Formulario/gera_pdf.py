@@ -182,7 +182,7 @@ def exporta_pdf(file_path1,file_path2,file_path3,file_path4,file_path5,file_path
     pdf.setFont("Helvetica-Bold", 40)
     titulo_pular_linha(pdf,dicionario_form['titulo2'],750,40,15)
 
-    pdf.drawInlineImage(file_path3,0,200, width=650, height=400)#[coluna][altura]
+    pdf.drawInlineImage(imagem_bytes,0,200, width=650, height=400)#[coluna][altura]
 
     pdf.drawInlineImage(file_path5, 440, 650,width=130,height=150)
 
