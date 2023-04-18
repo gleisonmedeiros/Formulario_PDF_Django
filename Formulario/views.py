@@ -106,6 +106,8 @@ def download_file(request):
         # Cria um objeto de arquivo PDF com os bytes lidos
         file_path1 = PdfReader(io.BytesIO(pdf_bytes))
 
+        s3.delete_object(Bucket='agpydajngo', Key='media/grafico1.jpg')
+
         exporta_pdf(file_path1,
                     dicionario_media['file_path2'],
                     dicionario_media['file_path3'],
