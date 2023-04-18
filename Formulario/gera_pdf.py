@@ -10,6 +10,7 @@ import os
 from django.conf import settings
 # importing the style package
 from matplotlib import style
+from PIL import Image
 
 plt.style.use("cyberpunk")
 
