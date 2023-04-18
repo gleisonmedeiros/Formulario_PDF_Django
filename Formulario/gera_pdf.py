@@ -137,7 +137,8 @@ def exporta_pdf(file_path1,file_path2,file_path3,file_path4,file_path5,file_path
 
     nome_pdf = 'arquivo'
     # = os.path.join(settings.MEDIA_ROOT, 'arquivo.pdf')
-    pdf = canvas.Canvas(file_path1)
+    pdf_bytes = io.BytesIO()
+    pdf = canvas.Canvas(pdf_bytes)
     pdf.setTitle(nome_pdf)
 
     #imagem2 = 'testeee.jpeg'
@@ -218,6 +219,10 @@ def exporta_pdf(file_path1,file_path2,file_path3,file_path4,file_path5,file_path
     pdf.drawString(100, 20, 'Gestor Milionário - 2022 todos os direitos reservados')
 
     pdf.save()
+
+    s3.put_object(Bucket='agpydajngo', Key='media/arquivo.pdf', Body=pdf_bytes.getvalue())
+
+
 
     print('{}.pdf criado com sucesso!'.format(nome_pdf))
 
