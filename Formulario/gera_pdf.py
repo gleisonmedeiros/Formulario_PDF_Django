@@ -1,3 +1,5 @@
+import io
+
 from reportlab.pdfgen import canvas
 import numpy as np
 import matplotlib.pyplot as plt
@@ -119,15 +121,12 @@ def exporta_pdf(file_path1,file_path2,file_path3,file_path4,file_path5,file_path
 
     #plt.title(dicionario_form['titulo_grafico'].upper())
 
-    caminho_novo = 'media/grafico2.jpg'
-    plt.savefig(caminho_novo)
+    buf = io.BytesIO()
+    plt.savefig(buf, format='jpg')
+    imagem_bytes = buf.getvalue()
 
-    with open(caminho_novo, 'rb') as f:
-        arquivo_bytes = f.read()
+    s3.put_object(Bucket='agpydajngo', Key='media/' + grafico1.jpg, Body=imagem_bytes)
 
-    s3.put_object(Bucket='agpydajngo', Key='media/' + grafico1.jpg, Body=arquivo_bytes)
-
-    s3.delete_object(Bucket=agpydajngo, Key='media/grafico2.jpg')
 
     #plt.show()
 
