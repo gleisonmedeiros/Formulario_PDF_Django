@@ -121,13 +121,19 @@ def exporta_pdf(file_path1,file_path2,file_path3,file_path4,file_path5,file_path
 
     #plt.title(dicionario_form['titulo_grafico'].upper())
 
-    s3.delete_object(Bucket='agpydajngo', Key='media/grafico1.jpg')
-
     buf = io.BytesIO()
     plt.savefig(buf, format='jpg')
     imagem_bytes = buf.getvalue()
 
     s3.put_object(Bucket='agpydajngo', Key='media/grafico1.jpg' , Body=imagem_bytes)
+
+    response = s3.get_object(Bucket='agpydajngo', Key='media/grafico1.jpg')
+
+    # Faça algo com o arquivo, como salvar na memória ou retorná-lo como resposta HTTP
+    image_bytes = response['Body'].read()
+
+    # carregar imagem a partir dos bytes
+    file_path3 = Image.open(io.BytesIO(image_bytes))
 
 
     #plt.show()
@@ -182,7 +188,7 @@ def exporta_pdf(file_path1,file_path2,file_path3,file_path4,file_path5,file_path
     pdf.setFont("Helvetica-Bold", 40)
     titulo_pular_linha(pdf,dicionario_form['titulo2'],750,40,15)
 
-    pdf.drawInlineImage(imagem_bytes,0,200, width=650, height=400)#[coluna][altura]
+    pdf.drawInlineImage(file_path3,0,200, width=650, height=400)#[coluna][altura]
 
     pdf.drawInlineImage(file_path5, 440, 650,width=130,height=150)
 
