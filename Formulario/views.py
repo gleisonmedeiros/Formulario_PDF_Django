@@ -112,7 +112,7 @@ def download_file(request):
                     dicionario_media['file_path4'],
                     dicionario_media['file_path5'],
                     dicionario_media['file_path6']
-                    ,dicionario_form)
+                    ,dicionario_form,s3)
 
         with open(file_path1, 'rb') as file:
             response = HttpResponse(file.read(), content_type='application/pdf')

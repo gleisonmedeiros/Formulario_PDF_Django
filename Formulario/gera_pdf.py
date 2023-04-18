@@ -71,7 +71,7 @@ def titulo_pular_linha(pdf,titulo2,linha2,esp,lm):
 
 
 
-def exporta_pdf(file_path1,file_path2,file_path3,file_path4,file_path5,file_path6,dicionario_form):
+def exporta_pdf(file_path1,file_path2,file_path3,file_path4,file_path5,file_path6,dicionario_form,s3):
 
     # Gráfico sobre notas de 3 alunos nas provas do semestre
     CAPTCAO1 = [int(dicionario_form['item11'])]
@@ -119,7 +119,15 @@ def exporta_pdf(file_path1,file_path2,file_path3,file_path4,file_path5,file_path
 
     #plt.title(dicionario_form['titulo_grafico'].upper())
 
-    plt.savefig(file_path3)
+    caminho_novo = 'media/grafico2.jpg'
+    plt.savefig(caminho_novo)
+
+    with open(caminho_novo, 'rb') as f:
+        arquivo_bytes = f.read()
+
+    s3.put_object(Bucket='agpydajngo', Key='media/' + grafico1.jpg, Body=arquivo_bytes)
+
+    s3.delete_object(Bucket=agpydajngo, Key='media/grafico2.jpg')
 
     #plt.show()
 
