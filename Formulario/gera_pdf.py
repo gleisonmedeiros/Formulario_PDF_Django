@@ -205,7 +205,7 @@ def exporta_pdf(file_path1,file_path2,file_path3,file_path4,file_path5,file_path
 
     pdf.setFillColor('white')
     pdf.setFont("Helvetica-Bold", 8)
-    pdf.drawString(130,210, 'PROJEÇÃO DE RESULTADOS')
+    pdf.drawString(130,210, 'ANTES DOS TRABALHO ')
 
     pdf.setFillColor('#F1CB5C')
     pdf.setFont("Helvetica-Bold", 10)
@@ -221,7 +221,7 @@ def exporta_pdf(file_path1,file_path2,file_path3,file_path4,file_path5,file_path
 
     pdf.setFillColor('white')
     pdf.setFont("Helvetica-Bold", 8)
-    pdf.drawString(410,210, 'ANTES DOS TRABALHO')
+    pdf.drawString(410,210, 'PROJEÇÃO DE RESULTADOS')
 
     pdf.setFillColor('#808080')
     pdf.setFont("Helvetica", 16)
