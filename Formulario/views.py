@@ -113,11 +113,19 @@ def download_file(request):
                     dicionario_media['file_path5'],
                     dicionario_media['file_path6']
                     ,dicionario_form,s3)
-
+        '''
         with open(file_path1, 'rb') as file:
             response = HttpResponse(file.read(), content_type='application/pdf')
             response['Content-Disposition'] = 'attachment; filename="arquivo.pdf"'
             return response
+        '''
+
+
+        response = s3.get_object(Bucket='agpydajngo', Key='media/arquivo.pdf')
+
+        response = HttpResponse(response['Body'].read(), content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="arquivo.pdf"'
+        return response
 
 def limpar_campos(request):
     if request.method == 'POST':
