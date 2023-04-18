@@ -121,6 +121,8 @@ def exporta_pdf(file_path1,file_path2,file_path3,file_path4,file_path5,file_path
 
     #plt.title(dicionario_form['titulo_grafico'].upper())
 
+    s3.delete_object(Bucket='agpydajngo', Key='media/grafico1.jpg')
+
     buf = io.BytesIO()
     plt.savefig(buf, format='jpg')
     imagem_bytes = buf.getvalue()
