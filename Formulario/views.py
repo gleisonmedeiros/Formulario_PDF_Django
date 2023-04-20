@@ -125,7 +125,6 @@ def download_file(request):
                 # carregar imagem a partir dos bytes
                 dicionario_media[elemento2] = Image.open(io.BytesIO(image_bytes))
 
-
             # Faz a leitura do arquivo PDF do S3
             response = s3.get_object(Bucket='agpydajngo', Key='media/arquivo.pdf')
             pdf_bytes = response['Body'].read()
@@ -142,8 +141,6 @@ def download_file(request):
                         dicionario_media['file_path5'],
                         dicionario_media['file_path6']
                         ,dicionario_form,s3)
-
-
 
             response = s3.get_object(Bucket='agpydajngo', Key='media/arquivo.pdf')
 

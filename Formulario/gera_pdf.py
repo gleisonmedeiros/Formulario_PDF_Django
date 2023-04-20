@@ -144,6 +144,8 @@ def exporta_pdf(file_path1,file_path2,file_path3,file_path4,file_path5,file_path
         # carregar imagem a partir dos bytes
         file_path3 = Image.open(io.BytesIO(image_bytes))
 
+    print(VARIAVEL)
+
 
     #plt.show()
 
@@ -161,6 +163,8 @@ def exporta_pdf(file_path1,file_path2,file_path3,file_path4,file_path5,file_path
     elif (VARIAVEL == 'railway'):
         pdf = canvas.Canvas(pdf_bytes)
     pdf.setTitle(nome_pdf)
+
+    print(VARIAVEL)
 
     #imagem2 = 'testeee.jpeg'
     pdf.drawInlineImage(file_path2,0,0,width=600,height=850)#[coluna][altura]
@@ -244,7 +248,7 @@ def exporta_pdf(file_path1,file_path2,file_path3,file_path4,file_path5,file_path
     elif(VARIAVEL=='railway'):
         s3.put_object(Bucket='agpydajngo', Key='media/arquivo.pdf', Body=pdf_bytes.getvalue())
 
-
+    print(VARIAVEL)
 
     print('{}.pdf criado com sucesso!'.format(nome_pdf))
 
