@@ -240,9 +240,10 @@ def exporta_pdf(file_path1,file_path2,file_path3,file_path4,file_path5,file_path
     pdf.setFont("Helvetica", 16)
     pdf.drawString(100, 20, 'Gestor Milionário - 2022 todos os direitos reservados')
 
-    if(VARIAVEL=='local'):
-        pdf.save()
-    elif(VARIAVEL=='railway'):
+
+    pdf.save()
+
+    if(VARIAVEL=='railway'):
         s3.put_object(Bucket='agpydajngo', Key='media/arquivo.pdf', Body=pdf_bytes.getvalue())
 
     print(VARIAVEL)
