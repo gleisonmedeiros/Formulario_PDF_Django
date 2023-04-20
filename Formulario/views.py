@@ -31,10 +31,10 @@ def sum(request):
 def form(request):
     load_dotenv()
 
-    VARIAVEL_DE_EXEMPLO = os.getenv('AMBIENTE')
+    AMBIENTE = os.getenv('AMBIENTE')
 
-    print(VARIAVEL_DE_EXEMPLO)
-    return render(request, 'form.html')
+    print(AMBIENTE)
+    return render(request, 'form.html',{'AMBIENTE':AMBIENTE})
 
 def arquivo_json(dicionario_form):
 
