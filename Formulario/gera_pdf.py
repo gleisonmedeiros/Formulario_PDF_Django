@@ -75,10 +75,7 @@ def titulo_pular_linha(pdf,titulo2,linha2,esp,lm):
 
 
 
-def exporta_pdf(file_path1,file_path2,file_path3,file_path4,file_path5,file_path6,dicionario_form,s3):
-    load_dotenv()
-
-    VARIAVEL = os.getenv('AMBIENTE')
+def exporta_pdf(file_path1,file_path2,file_path3,file_path4,file_path5,file_path6,dicionario_form,s3,VARIAVEL):
 
     # Gráfico sobre notas de 3 alunos nas provas do semestre
     CAPTCAO1 = [int(dicionario_form['item11'])]

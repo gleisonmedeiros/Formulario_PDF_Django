@@ -95,7 +95,7 @@ def download_file(request):
                         file_path4,
                         file_path5,
                         file_path6,
-                        dicionario_form, s3)
+                        dicionario_form, s3,VARIAVEL)
 
             with open(file_path1, 'rb') as file:
                 response = HttpResponse(file.read(), content_type='application/pdf')
@@ -140,7 +140,7 @@ def download_file(request):
                         dicionario_media['file_path4'],
                         dicionario_media['file_path5'],
                         dicionario_media['file_path6']
-                        ,dicionario_form,s3)
+                        ,dicionario_form,s3,VARIAVEL)
 
             response = s3.get_object(Bucket='agpydajngo', Key='media/arquivo.pdf')
 
