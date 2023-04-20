@@ -11,6 +11,7 @@ from django.conf import settings
 # importing the style package
 from matplotlib import style
 from PIL import Image
+from dotenv import load_dotenv
 
 plt.style.use("cyberpunk")
 
@@ -75,6 +76,9 @@ def titulo_pular_linha(pdf,titulo2,linha2,esp,lm):
 
 
 def exporta_pdf(file_path1,file_path2,file_path3,file_path4,file_path5,file_path6,dicionario_form,s3):
+    load_dotenv()
+
+    VARIAVEL = os.getenv('AMBIENTE')
 
     # Gráfico sobre notas de 3 alunos nas provas do semestre
     CAPTCAO1 = [int(dicionario_form['item11'])]
@@ -122,19 +126,23 @@ def exporta_pdf(file_path1,file_path2,file_path3,file_path4,file_path5,file_path
 
     #plt.title(dicionario_form['titulo_grafico'].upper())
 
-    buf = io.BytesIO()
-    plt.savefig(buf, format='jpg')
-    imagem_bytes = buf.getvalue()
+    if (VARIAVEL=='local'):
+        plt.savefig(file_path3)
 
-    s3.put_object(Bucket='agpydajngo', Key='media/grafico1.jpg' , Body=imagem_bytes)
+    elif(VARIAVEL=='railway'):
+        buf = io.BytesIO()
+        plt.savefig(buf, format='jpg')
+        imagem_bytes = buf.getvalue()
 
-    response = s3.get_object(Bucket='agpydajngo', Key='media/grafico1.jpg')
+        s3.put_object(Bucket='agpydajngo', Key='media/grafico1.jpg' , Body=imagem_bytes)
 
-    # Faça algo com o arquivo, como salvar na memória ou retorná-lo como resposta HTTP
-    image_bytes = response['Body'].read()
+        response = s3.get_object(Bucket='agpydajngo', Key='media/grafico1.jpg')
 
-    # carregar imagem a partir dos bytes
-    file_path3 = Image.open(io.BytesIO(image_bytes))
+        # Faça algo com o arquivo, como salvar na memória ou retorná-lo como resposta HTTP
+        image_bytes = response['Body'].read()
+
+        # carregar imagem a partir dos bytes
+        file_path3 = Image.open(io.BytesIO(image_bytes))
 
 
     #plt.show()
@@ -147,7 +155,11 @@ def exporta_pdf(file_path1,file_path2,file_path3,file_path4,file_path5,file_path
     nome_pdf = 'arquivo'
     # = os.path.join(settings.MEDIA_ROOT, 'arquivo.pdf')
     pdf_bytes = io.BytesIO()
-    pdf = canvas.Canvas(pdf_bytes)
+    if (VARIAVEL == 'local'):
+        pdf = canvas.Canvas(file_path1)
+
+    elif (VARIAVEL == 'railway'):
+        pdf = canvas.Canvas(pdf_bytes)
     pdf.setTitle(nome_pdf)
 
     #imagem2 = 'testeee.jpeg'
@@ -227,9 +239,10 @@ def exporta_pdf(file_path1,file_path2,file_path3,file_path4,file_path5,file_path
     pdf.setFont("Helvetica", 16)
     pdf.drawString(100, 20, 'Gestor Milionário - 2022 todos os direitos reservados')
 
-    pdf.save()
-
-    s3.put_object(Bucket='agpydajngo', Key='media/arquivo.pdf', Body=pdf_bytes.getvalue())
+    if(VARIAVEL=='local'):
+        pdf.save()
+    elif(VARIAVEL=='railway'):
+        s3.put_object(Bucket='agpydajngo', Key='media/arquivo.pdf', Body=pdf_bytes.getvalue())
 
 
 

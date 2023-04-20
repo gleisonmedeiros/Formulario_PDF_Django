@@ -9,6 +9,8 @@ from difflib import ndiff
 import boto3
 from PIL import Image
 from PyPDF2 import PdfReader
+import environ
+from dotenv import load_dotenv
 
 from .forms import JSONUploadForm
 
@@ -27,6 +29,11 @@ def sum(request):
 
 
 def form(request):
+    load_dotenv()
+
+    VARIAVEL_DE_EXEMPLO = os.getenv('AMBIENTE')
+
+    print(VARIAVEL_DE_EXEMPLO)
     return render(request, 'form.html')
 
 def arquivo_json(dicionario_form):
@@ -56,15 +63,6 @@ def download_file(request):
             temp = i
             dicionario_form[i] = str(request.POST.get(i))
 
-        #file_path1 = os.path.join(settings.MEDIA_ROOT, 'arquivo.pdf')
-        #file_path2 = os.path.join(settings.MEDIA_ROOT, 'capa.jpg')
-        #file_path3 = os.path.join(settings.MEDIA_ROOT, 'grafico1.jpg')
-        #file_path4 = os.path.join(settings.MEDIA_ROOT, 'logo2.png')
-        #file_path5 = os.path.join(settings.MEDIA_ROOT, 'logo.png')
-        #file_path6 = os.path.join(settings.MEDIA_ROOT, 'folha.png')
-
-        ##### RECUPERA DO BACKBRAZE ####
-
         # Crie uma instância do cliente boto3
         id = os.environ.get('backblaze_id')
         key = os.environ.get('backblaze_key')
@@ -77,57 +75,81 @@ def download_file(request):
                           aws_secret_access_key=key,
                           endpoint_url='https://s3.us-east-005.backblazeb2.com')
 
-        # Busque o arquivo .png no Backblaze B2
-        dicionario_media = {}
-
-        nome_arquivo = ['capa.jpg','grafico1.jpg','logo2.PNG','logo.PNG','folha.png']
-        local = ['file_path2','file_path3','file_path4','file_path5','file_path6']
-
-        for elemento1, elemento2 in zip(nome_arquivo, local):
-
-            caminho = 'media/'+ elemento1
-
-            print(caminho)
-
-            response = s3.get_object(Bucket='agpydajngo', Key=str(caminho))
-
-            # Faça algo com o arquivo, como salvar na memória ou retorná-lo como resposta HTTP
-            image_bytes = response['Body'].read()
-
-            # carregar imagem a partir dos bytes
-            dicionario_media[elemento2] = Image.open(io.BytesIO(image_bytes))
-
         arquivo_json(dicionario_form)
 
-        # Faz a leitura do arquivo PDF do S3
-        response = s3.get_object(Bucket='agpydajngo', Key='media/arquivo.pdf')
-        pdf_bytes = response['Body'].read()
+        load_dotenv()
 
-        # Cria um objeto de arquivo PDF com os bytes lidos
-        file_path1 = PdfReader(io.BytesIO(pdf_bytes))
+        VARIAVEL = os.getenv('AMBIENTE')
 
-        s3.delete_object(Bucket='agpydajngo', Key='media/grafico1.jpg')
+        if (VARIAVEL=='local'):
+            file_path1 = os.path.join(settings.MEDIA_ROOT, 'arquivo.pdf')
+            file_path2 = os.path.join(settings.MEDIA_ROOT, 'capa.jpg')
+            file_path3 = os.path.join(settings.MEDIA_ROOT, 'grafico1.jpg')
+            file_path4 = os.path.join(settings.MEDIA_ROOT, 'logo2.png')
+            file_path5 = os.path.join(settings.MEDIA_ROOT, 'logo.png')
+            file_path6 = os.path.join(settings.MEDIA_ROOT, 'folha.png')
 
-        exporta_pdf(file_path1,
-                    dicionario_media['file_path2'],
-                    dicionario_media['file_path3'],
-                    dicionario_media['file_path4'],
-                    dicionario_media['file_path5'],
-                    dicionario_media['file_path6']
-                    ,dicionario_form,s3)
-        '''
-        with open(file_path1, 'rb') as file:
-            response = HttpResponse(file.read(), content_type='application/pdf')
+            exporta_pdf(file_path1,
+                        file_path2,
+                        file_path3,
+                        file_path4,
+                        file_path5,
+                        file_path6,
+                        dicionario_form, s3)
+
+            with open(file_path1, 'rb') as file:
+                response = HttpResponse(file.read(), content_type='application/pdf')
+                response['Content-Disposition'] = 'attachment; filename="arquivo.pdf"'
+                return response
+
+        elif(VARIAVEL=='railway'):
+            ##### RECUPERA DO BACKBRAZE ####
+
+            # Busque o arquivo .png no Backblaze B2
+            dicionario_media = {}
+
+            nome_arquivo = ['capa.jpg','grafico1.jpg','logo2.PNG','logo.PNG','folha.png']
+            local = ['file_path2','file_path3','file_path4','file_path5','file_path6']
+
+            for elemento1, elemento2 in zip(nome_arquivo, local):
+
+                caminho = 'media/'+ elemento1
+
+                print(caminho)
+
+                response = s3.get_object(Bucket='agpydajngo', Key=str(caminho))
+
+                # Faça algo com o arquivo, como salvar na memória ou retorná-lo como resposta HTTP
+                image_bytes = response['Body'].read()
+
+                # carregar imagem a partir dos bytes
+                dicionario_media[elemento2] = Image.open(io.BytesIO(image_bytes))
+
+
+            # Faz a leitura do arquivo PDF do S3
+            response = s3.get_object(Bucket='agpydajngo', Key='media/arquivo.pdf')
+            pdf_bytes = response['Body'].read()
+
+            # Cria um objeto de arquivo PDF com os bytes lidos
+            file_path1 = PdfReader(io.BytesIO(pdf_bytes))
+
+            s3.delete_object(Bucket='agpydajngo', Key='media/grafico1.jpg')
+
+            exporta_pdf(file_path1,
+                        dicionario_media['file_path2'],
+                        dicionario_media['file_path3'],
+                        dicionario_media['file_path4'],
+                        dicionario_media['file_path5'],
+                        dicionario_media['file_path6']
+                        ,dicionario_form,s3)
+
+
+
+            response = s3.get_object(Bucket='agpydajngo', Key='media/arquivo.pdf')
+
+            response = HttpResponse(response['Body'].read(), content_type='application/pdf')
             response['Content-Disposition'] = 'attachment; filename="arquivo.pdf"'
             return response
-        '''
-
-
-        response = s3.get_object(Bucket='agpydajngo', Key='media/arquivo.pdf')
-
-        response = HttpResponse(response['Body'].read(), content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="arquivo.pdf"'
-        return response
 
 def limpar_campos(request):
     if request.method == 'POST':
